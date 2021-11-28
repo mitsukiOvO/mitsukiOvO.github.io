@@ -10,12 +10,6 @@
     .fade-enter-active{
       transition:opacity .5s;
     }
-    .fade-leave-active{
-      transition:opacity .5s;
-    }
-    .fade-leave-to{
-      opacity:0;
-    }
 
     *{
       margin: 0;
@@ -27,7 +21,7 @@
     }
 
     body{
-      background-image: url('https://www.hacg.cat/wp/wp-content/uploads/2015/11/camouflage.png');
+      background-image: url('./camouflage.png');
     }
 
     .container{
@@ -101,15 +95,15 @@
         prev() {
           if (this.index > 0) {
             this.index--
-            this.item = this.list[this.index]
             this.show = false
+            this.item = this.list[this.index]
           }
         },
         next() {
           if (this.index < this.list.length - 1) {
             this.index++
-            this.item = this.list[this.index]
             this.show = false
+            this.item = this.list[this.index]
           }
         }
       },
