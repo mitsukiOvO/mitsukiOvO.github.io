@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<head>
+  <meta name="Index">
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body{
+      height: 100%;
+    }
+
+    body{
+      background-image: url('./camouflage.png');
+    }
+
+    .container{
+      margin: 0 auto;
+      margin-top: 20%;
+
+      display: flex;
+      max-width: 60%;
+      flex-direction: column;
+
+      background-color: #333333;
+      color: ivory;
+    }
+
+    .title{
+    }
+
+    .answer{
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .answer > div{
+      animation: slidein 0.5s;      
+    }
+
+    @keyframes slidein {
+      from {
+        opacity: 0;
+      }
+    
+      to {
+        opacity: 1;
+      }
+    }
+
+    footer{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    button{
+      flex-grow: 1;
+      min-height: 30px;
+      opacity: 0.5;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='app'>
+    <div class="container">
+      <p class="title"> {{item == null ? '' : item.title}} </p>
+      <div class="answer" @click="show = !show" >        
+        <div v-if="show && (item != null)"> 
+          <p v-for="p, index in item.answer" :key="index">
+            {{p}}
+          </p>
+        </div>        
+      </div>
+      <footer>
+        <button @click="prev()">&lt;</button>
+        <span>{{index}} / {{list.length}}</span>
+        <button @click="next()">></button>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const app = {
+      data() {
+        return {
+          list: [],
+          index: -1,
+          item: null,
+          show: false
+        }
+      },
+      methods:{
+        prev() {
+          if (this.index > 0) {
+            this.index--
+            this.show = false
+            this.item = this.list[this.index]
+          }
+        },
+        next() {
+          if (this.index < this.list.length - 1) {
+            this.index++
+            this.show = false
+            this.item = this.list[this.index]
+          }
+        }
+      },
+      mounted() {
+        axios.get('./info.json').then(
+          response => {            
+            temp = response.data.data.map(item => {
+              return {
+                'title': item.title,
+                'answer': item.answer.split('\n')
+              }
+            })
+            this.list = temp
+            this.index = 0
+            this.item = this.list[this.index]
+          }
+        )
+      }
+    }
+    Vue.createApp(app).mount('#app')
+  </script>
+</body>

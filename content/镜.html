@@ -1,0 +1,450 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>镜</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none 0s ease 0s; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+
+
+html {
+	font-size: 19px;
+}
+
+html, body {
+	margin: auto;
+	background: #fefefe;
+}
+body {
+	font-family: "Vollkorn", Palatino, Times;
+	color: #333;
+	line-height: 1.4;
+	text-align: justify;
+}
+
+#write {
+	max-width: 960px;
+	margin: 0 auto;
+	margin-bottom: 2em;
+	line-height: 1.53;
+	padding-top: 40px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1100px;
+	}
+}
+
+/* Typography
+-------------------------------------------------------- */
+
+#write>h1:first-child,
+h1 {
+	margin-top: 1.6em;
+	font-weight: normal;
+}
+
+h1 {
+	font-size:3em;
+}
+
+h2 {
+	margin-top:2em;
+	font-weight: normal;
+}
+
+h3 {
+	font-weight: normal;
+	font-style: italic;
+	margin-top: 3em;
+}
+
+h1, 
+h2, 
+h3{
+	text-align: center;
+}
+
+h2:after{
+	border-bottom: 1px solid #2f2f2f;
+    content: '';
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    height: 1px;
+}
+
+h1+h2, h2+h3 {
+	margin-top: 0.83em;
+}
+
+p,
+.mathjax-block {
+	margin-top: 0;
+	-webkit-hypens: auto;
+	-moz-hypens: auto;
+	hyphens: auto;
+}
+ul {
+	list-style: square;
+	padding-left: 1.2em;
+}
+ol {
+	padding-left: 1.2em;
+}
+blockquote {
+	margin-left: 1em;
+	padding-left: 1em;
+	border-left: 1px solid #ddd;
+}
+code,
+pre {
+	font-family: "Consolas", "Menlo", "Monaco", monospace, serif;
+	font-size: .9em;
+	background: white;
+}
+.md-fences{
+	margin-left: 1em;
+	padding-left: 1em;
+	border: 1px solid #ddd;
+	padding-bottom: 8px;
+	padding-top: 6px;
+	margin-bottom: 1.5em;
+}
+
+a {
+	color: #2484c1;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+a img {
+	border: none;
+}
+h1 a,
+h1 a:hover {
+	color: #333;
+	text-decoration: none;
+}
+hr {
+	color: #ddd;
+	height: 1px;
+	margin: 2em 0;
+	border-top: solid 1px #ddd;
+	border-bottom: none;
+	border-left: 0;
+	border-right: 0;
+}
+.ty-table-edit {
+	background: #ededed;
+    padding-top: 4px;
+}
+table {
+	margin-bottom: 1.333333rem
+}
+table th,
+table td {
+	padding: 8px;
+	line-height: 1.333333rem;
+	vertical-align: top;
+	border-top: 1px solid #ddd
+}
+table th {
+	font-weight: bold
+}
+table thead th {
+	vertical-align: bottom
+}
+table caption+thead tr:first-child th,
+table caption+thead tr:first-child td,
+table colgroup+thead tr:first-child th,
+table colgroup+thead tr:first-child td,
+table thead:first-child tr:first-child th,
+table thead:first-child tr:first-child td {
+	border-top: 0
+}
+table tbody+tbody {
+	border-top: 2px solid #ddd
+}
+
+.task-list{
+	padding:0;
+}
+
+.md-task-list-item {
+	padding-left: 1.6rem;
+}
+
+.md-task-list-item > input:before {
+	content: '\221A';
+	display: inline-block;
+	width: 1.33333333rem;
+  	height: 1.6rem;
+	vertical-align: middle;
+	text-align: center;
+	color: #ddd;
+	background-color: #fefefe;
+}
+
+.md-task-list-item > input:checked:before,
+.md-task-list-item > input[checked]:before{
+	color: inherit;
+}
+.md-tag {
+	color: inherit;
+	font: inherit;
+}
+#write pre.md-meta-block {
+	min-height: 35px;
+	padding: 0.5em 1em;
+}
+#write pre.md-meta-block {
+	white-space: pre;
+	background: #f8f8f8;
+	border: 0px;
+	color: #999;
+	
+	width: 100vw;
+	max-width: calc(100% + 60px);
+	margin-left: -30px;
+	border-left: 30px #f8f8f8 solid;
+	border-right: 30px #f8f8f8 solid;
+
+	margin-bottom: 2em;
+	margin-top: -1.3333333333333rem;
+	padding-top: 26px;
+	padding-bottom: 10px;
+	line-height: 1.8em;
+	font-size: 0.9em;
+	font-size: 0.76em;
+	padding-left: 0;
+}
+.md-img-error.md-image>.md-meta{
+	vertical-align: bottom;
+}
+#write>h5.md-focus:before {
+	top: 2px;
+}
+
+.md-toc {
+	margin-top: 40px;
+}
+
+.md-toc-content {
+	padding-bottom: 20px;
+}
+
+.outline-expander:before {
+	color: inherit;
+	font-size: 14px;
+	top: auto;
+	content: "\f0da";
+	font-family: FontAwesome;
+}
+
+.outline-expander:hover:before,
+.outline-item-open>.outline-item>.outline-expander:before {
+  	content: "\f0d7";
+}
+
+/** source code mode */
+#typora-source {
+	font-family: Courier, monospace;
+    color: #6A6A6A;
+}
+
+.html-for-mac #typora-sidebar {
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.cm-s-typora-default .cm-header, 
+.cm-s-typora-default .cm-property,
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
+	color: #428bca;
+}
+
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number {
+	color: #777777;
+}
+
+.typora-node .file-list-item-parent-loc, 
+.typora-node .file-list-item-time, 
+.typora-node .file-list-item-summary {
+	font-family: arial, sans-serif;
+}
+
+.md-task-list-item>input {
+    margin-left: -1.3em;
+    margin-top: calc(1rem - 12px);
+}
+
+.md-mathjax-midline {
+	background: #fafafa;
+}
+
+.md-fences .code-tooltip {
+	bottom: -2em !important;
+}
+
+.dropdown-menu .divider {
+	border-color: #e5e5e5;
+}
+
+
+</style>
+</head>
+<body class='typora-export os-windows' >
+<div  id='write'  class = ''><h2><a name="新时代" class="md-header-anchor"></a><span>新时代</span></h2><h4><a name="新发展阶段" class="md-header-anchor"></a><span>新发展阶段</span></h4><ul><li><p><span>正确认识党和人民所处的历史方位，是我们党明确阶段性中心任务、制定路线方针政策的根本依据</span></p></li><li><p><span>进入新时代的依据：</span></p><ul><li><span>理论依据：新发展阶段是社会主义初级阶段中的一个阶段，是其中经过几十年积累、站到了新的起点上的一个阶段</span></li><li><span>历史依据：新发展阶段是我们党带领人民迎来从站起来、富起来、到强起来历史性跨越的新阶段</span></li><li><span>现实依据：我们已经拥有开启新征程、实现新的更高目标的雄厚物质基础</span></li></ul></li><li><p><span>立足新发展阶段，既要把握实践发展的连续性，又要把握时代发展的阶段性，既要抓住国内外环境深刻变化带来的新机遇，又要准备迎接一些列新挑战，确保全面建设社会主义现代化国家开好局、起好步</span></p></li></ul><h4><a name="新发展理念" class="md-header-anchor"></a><span>新发展理念</span></h4><ul><li><p><span>发展理念是否对头，从根本上决定着发展成效乃至成败</span></p></li><li><p><span>新发展理念是发展理念和思路中最重要的、最主要的</span></p></li><li><p><span>新发展理念回答了关于发展的目标、动力、方式、路径等一系列理论和实践问题，阐明了我们党关于发展的政治立场、价值导向、发展模式、发展道路的重大政治问题，为如期全面建成小康社会、全面开启社会主义现代化国家新征程提供了科学指引</span></p></li><li><p><span>新发展理念是针对我国经济进入新常态、世界经济复苏乏力提出的治本之策，也是针对我国发展面临的突出问题和挑战提出的战略指引</span></p></li><li><p>&nbsp;</p></li><li><p><span>科学内涵</span></p><ul><li><p><span>创新</span></p><ul><li><span>引领发展的第一动力</span></li><li><span>解决发展动力问题</span></li><li><span>创新是国家综合国力和核心竞争力的最关键因素</span></li><li><span>应对发展环境变化、增强发展动力、把握发展主动权，更好引领新常态的根本之策</span></li><li><span>牵动经济社会发展全局的关键</span></li><li><span>要把创新摆在国家发展全局的核心位置，让创新贯穿党和国家的一切工作</span></li></ul></li><li><p><span>协调</span></p><ul><li><span>持续健康发展的内在要求</span></li><li><span>解决发展不平衡问题</span></li><li><span>既是发展手段又是发展目标，同时还是评价发展的标准和尺度</span></li></ul></li><li><p><span>绿色</span></p><ul><li><span>永续发展的必要条件，人民对美好生活追求的重要体现</span></li><li><span>解决人与自然和谐问题</span></li><li><span>是构建高质量现代化经济体系的必然要求，解决污染问题的根本之策</span></li></ul></li><li><p><span>开放</span></p><ul><li><span>国家繁荣的必由之路</span></li><li><span>解决发展内外联动问题</span></li><li><span>全方位多层次宽领域的全面开放格局</span></li></ul></li><li><p><span>共享</span></p><ul><li><span>中国特色社会主义的本质要求</span></li><li><span>解决社会公平正义问题</span></li></ul></li></ul></li><li><p><span>完整、准确、全面贯彻新发展理念，是经济社会发展的工作要求，也是十分重要的政治要求</span></p></li></ul><h4><a name="新发展格局" class="md-header-anchor"></a><span>新发展格局</span></h4><ul><li><p><span>构建以国内大循环为主题、国内国际双循环相互促进的新发展格局</span></p><ul><li><span>是对我国经济发展战略、路径做出的重大调整完善</span></li><li><span>是着眼于我国长远发展和长治久安做出的重大战略部署</span></li><li><span>是党中央统筹中华民族伟大复兴战略全局和世界百年未有之大变局做出的战略谋划</span></li><li><span>是重塑我国国际合作和竞争新优势的战略抉择</span></li><li><span>是与时俱进提升我国经济发展水平的战略抉择</span></li><li><span>是把握未来发展主动权的战略性布局和先手棋</span></li><li><span>是新发展阶段要着力推动完成的重大历史任务</span></li><li><span>是贯彻新发展理念的重大措施</span></li></ul></li><li><p><span>依据：</span></p><ul><li><span>发展进程的变化</span></li><li><span>发展条件的世界比较：大国经济的特征都是以内需为主导、内部可循环</span></li><li><span>发展的外部环境（国际形势）</span></li></ul></li><li><p><span>方式方法：</span></p><ul><li><p><span>扭住扩大内需的战略基点、畅通国民经济循环</span></p><ul><li><span>坚持供给则结构改革的战略方向</span></li><li><span>构建新发展格局的关键在于经济循环畅通无阻</span></li></ul></li><li><p><span>大力推进科技创新，打造经济发展新动能</span></p><ul><li><span>构建新发展格局最本质的特征是实现高水平的自立自强</span></li></ul></li><li><p><span>发挥全面深化改革在构建新发展格局中的关键作用</span></p></li><li><p><span>必须深刻把握国内国际双循环相互促进的关系</span></p></li></ul></li></ul><h4><a name="小结" class="md-header-anchor"></a><span>小结</span></h4><ul><li><span>进入新发展阶段明确了我国发展的历史方位</span></li><li><span>贯彻新发展理念明确了我国现代化建设的指导原则</span></li><li><span>构建新发展格局明确了我国经济现代化的路径选择</span></li><li><span>把握新发展阶段是贯彻新发展理念、构建新发展格局的现实依据</span></li><li><span>贯彻新发展理念为把握新发展阶段、构建新发展格局提供了行动指南</span></li><li><span>构建新发展格局则是应对新发展阶段机遇和挑战、贯彻新发展理念的战略选择</span></li></ul><h2><a name="推动高质量发展" class="md-header-anchor"></a><span>推动高质量发展</span></h2><ul><li><p><span>十四五期间经济社会发展要以推动高质量发展为主题</span></p></li><li><p><span>高质量发展</span></p><ul><li><span>体现新发展理念的发展</span></li><li><span>创新成为第一动力</span></li><li><span>协调成为内生特点</span></li><li><span>绿色称为普遍形态</span></li><li><span>开放成为必由之路</span></li><li><span>共享成为根本不低</span></li></ul></li><li><p><span>推动高质量发展是当前和今后一个时期确定发展思路、制定经济政策、实施宏观调控的根本要求</span></p></li><li><p><span>推动高质量发展的依据：</span></p><ul><li><span>是保持经济持续健康发展的必然要求</span></li><li><span>是适应我国社会主要矛盾变化、全面建设社会主义现代化国家的必然选择</span></li><li><span>是遵循经济发展规律的内在要求</span></li></ul></li><li><p><span>供给侧结构改革的根本就是要是我国供给能力更好满足广大人民群众日益增长的美好生活的需要</span></p></li></ul><h2><a name="使市场在资源配置中起决定性作用更好发挥政府作用" class="md-header-anchor"></a><span>使市场在资源配置中起决定性作用、更好发挥政府作用</span></h2><ul><li><p><span>坚持和完善我国社会主义基本经济制度</span></p><ul><li><p><span>激发各类市场主体活力</span></p><ul><li><span>公有制经济和非公有制经济都是社会主义市场经济的重要组成部分，都是我国经济社会发展的重要基础</span></li><li><span>我国民营经济已经成为推动我国发展不可或缺的力量，成为就业创业的主要领域、技术创新的重要主体、国家税收的重要来源，为我国社会主义市场经济发展、政府职能转变、农村富余劳动力转移、国际市场开拓等发挥了重要作用</span></li></ul></li><li><p><span>坚持按劳分配为主体、多种分配方式并存</span></p><ul><li><span>提高劳动报酬在初次分配的比重</span></li></ul></li><li><p><span>完善宏观经济治理</span></p></li><li><p><span>建设高标准市场体系</span></p></li><li><p><span>加快转变政府职能</span></p></li></ul></li></ul><h2><a name="建设现代化经济体系的主要任务" class="md-header-anchor"></a><span>建设现代化经济体系的主要任务</span></h2><ul><li><p><span>建设现代化经济体系是顺应中国特色社会主义进入新时代的新要求做出的重大决策部署，集中体现了转变发展方式、优化经济结构、转换增长动力的迫切要求</span></p></li><li><p><span>现代化经济体系的科学内涵</span></p><ul><li><span>建设创新引领、协同发展的产业体系</span></li><li><span>建设统一开放、竞争有序的市场体系</span></li><li><span>建设体现效率、促进公平的收入分配体系</span></li><li><span>建设彰显优势、协调联动的城乡区域发展体系</span></li><li><span>建设资源节约、环境友好的绿色发展体系</span></li><li><span>建设多元平衡、安全高效的全面开放体系</span></li><li><span>建设充分发挥市场作用、更好发挥政府作用的经济体制</span></li></ul></li><li><p><span>建设现代化经济体系的主要任务</span></p><ul><li><p><span>大力发展实体经济，筑牢现代化经济体系的坚实基础。</span></p><ul><li><span>实体经济是一国经济的立身之本，创造财富的根本源泉，国家强盛的重要支柱，现代化经济体系的坚实基础</span></li></ul></li><li><p><span>加快实施创新驱动发展战略，强化现代化经济体系的战略支撑</span></p></li><li><p><span>实施乡村振兴战略，夯实现代化经济体系的重要基础</span></p><ul><li><p><span>农业、农村、农民问题是关系国计民生的根本性问题</span></p></li><li><p><span>必须始终把解决好三农问题作为全党工作重中之重</span></p></li><li><p><span>加强推进农业农村现代化，健全自治、法治、德治的乡村治理体系</span></p></li><li><p><span>实现乡村振兴</span></p><ul><li><span>总目标是农业农村现代化</span></li><li><span>总方针是坚持农业农村优先发展</span></li><li><span>总要求是产业兴旺、生态宜居、乡风文明、治理有效、生活富裕</span></li><li><span>制度保障是建立健全城乡融合发展体制机制和政策体系</span></li></ul></li></ul></li><li><p><span>优化国土空间布局，推进区域协调发展和新型城镇化</span></p></li><li><p><span>着力发展开放型经济，提高现代化经济体系的国际竞争力</span></p></li><li><p><span>深化经济体制改革，完善现代化经济体系的制度保障</span></p><ul><li><span>经济体制改革必须以完善产权制度和要素市场化配置为重点</span></li></ul></li></ul></li><li><p><span>尽快突破关键核心技术</span></p><ul><li><span>是形成国内大循环为主体的关键</span></li><li><span>是关系我国发展全局的重大问题</span></li></ul></li></ul><h2><a name="坚持走中国特色社会主义政治发展道路" class="md-header-anchor"></a><span>坚持走中国特色社会主义政治发展道路</span></h2><ul><li><p><span>人民当家作主是我们党矢志不渝的奋斗目标</span></p><ul><li><p><span>人民当家作主是社会主义民主政治的本质和核心</span></p></li><li><p><span>人民当家作主的基本内涵</span></p><ul><li><span>国家的一切权利属于人民，体现在国家根本性质（国体，工人阶级领导的、以工农联盟为基础的人民民主专政的社会主义国家）上，体现在国家政权组织形式（政体，人民代表大会）上</span></li></ul></li></ul></li><li><p><span>坚持走中国特色社会主义政治发展道路的要求</span></p><ul><li><p><span>中特色发展道路是近代以来中国人民长期奋斗历史逻辑、理论逻辑、实践逻辑的必然结果，是坚持党的本质属性、践行党的根本宗旨的必然要求</span></p></li><li><p><span>必须坚持党的领导、人民当家作主、依法治国的有机统一</span></p><ul><li><span>党的领导是人民当家作主和依法治国的根本保证</span></li><li><span>人民当家作主是社会主义民主政治的本质特征</span></li><li><span>依法治国是党领导人民治理国家的基本方式</span></li><li><span>三者统一于我国社会主义民主政治伟大实践</span></li></ul></li><li><p><span>必须坚持正确政治方向</span></p></li></ul></li></ul><h2><a name="健全人民当家做主制度体系" class="md-header-anchor"></a><span>健全人民当家做主制度体系</span></h2><ul><li><span>中国的制度体系是在我国历史传承、文化传统、经济社会发展的基础上长期发展、渐进改进、内生性演化的结</span></li></ul><h4><a name="人民代表大会制度" class="md-header-anchor"></a><span>人民代表大会制度</span></h4><ul><li><span>是坚持党的领导、人民当家作主、依法治国有机统一的根本政治制度</span></li><li><span>是党在国家政权中充分发扬民主、贯彻群众路线的最好实现形式</span></li><li><span>是中国人民在人类在人类政治史上的伟大创造</span></li><li><span>是深刻总结近代以后中国政治生活惨痛教训得出的基本结论</span></li><li><span>是中国社会100多年激越变革、激荡发展的历史结果</span></li><li><span>是中国人民翻身作主、掌握自己命运的必然选择</span></li></ul><h4><a name="政治协商制度" class="md-header-anchor"></a><span>政治协商制度</span></h4><ul><li><p><span>人民政协的性质</span></p><ul><li><span>爱国统一战线的组织</span></li><li><span>国家治理体系的重要组成部分</span></li><li><span>社会主义协商民主的重要渠道和专门协商机构</span></li></ul></li><li><p><span>人民政协的主题：团结和民主</span></p></li><li><p><span>主要职能：政治协商、民主监督、参政议政</span></p></li></ul><h4><a name="民族区域自治制度" class="md-header-anchor"></a><span>民族区域自治制度</span></h4><ul><li><span>民族区域自治是党的民族政策的源头</span></li><li><span>民族区域自治维护国家统一、领土完整，在加强民族平等团结、促进民族地区发展、增强中华民族凝聚力等方面起了重要作用</span></li><li><span>坚持民族区域自治要坚持统一与自治相结合、民族因素与区域因素相结合</span></li></ul><h4><a name="基层群众自治制度" class="md-header-anchor"></a><span>基层群众自治制度</span></h4><ul><li><p><span>主要内容</span></p><ul><li><span>农村村民委员会</span></li><li><span>城市居民委员会</span></li><li><span>企业职工代表大会</span></li></ul></li><li><p><span>完善基层群众自治制度，发展基层民主的方法</span></p><ul><li><span>充分发挥党纵览全局、协调各方的领导核心作用，确保基层民主建设始终沿着中国特色社会主义政治发展道路前进</span></li><li><span>促进群众在城乡社区治理、基层公共事务和公益事务中依法自我管理、自我服务、自我教育、自我监督</span></li></ul></li></ul><h4><a name="社会主义协商民主" class="md-header-anchor"></a><span>社会主义协商民主</span></h4><ul><li><p><span>协商民主是中国社会主义民主政治的特有形式和独特优势</span></p></li><li><p><span>全方面、多层次、立体化的协商民主建设</span></p><ul><li><span>渠道：各协商组织</span></li><li><span>内容</span></li><li><span>层级：包括从中央到基层的各个层级</span></li></ul></li></ul><h2><a name="巩固和发展爱国统一战线" class="md-header-anchor"></a><span>巩固和发展爱国统一战线</span></h2><ul><li><p><span>统一战线</span></p><ul><li><span>是中国共产党凝聚人心、汇聚力量的政治优势和战略方针</span></li><li><span>是增强党的阶级基础、扩大党的群众基础、巩固党的执政地位的重要法宝</span></li><li><span>是全面建设社会主义现代化国家、实现中华民族伟大复兴的重要法宝</span></li></ul></li><li><p><span>巩固发展统一战线的重要任务</span></p><ul><li><p><span>坚持长期共存、互相监督、肝胆相照、荣辱与共，支持民主党派按照中国特色社会主义参政议政、民主监督、参加中国共产党领导的政治协商职能</span></p></li><li><p><span>民族团结是我国各族人民的生命线</span></p><ul><li><p><span>各民族团结进步、共同法繁荣发展是中华民族的生命所在、力量所在、希望所在</span></p></li><li><p><span>筑牢中华民族共同体意识</span></p><ul><li><span>是维护各民族根本利益的必然要求</span></li><li><span>是实现中华民族伟大复兴的必然要求</span></li><li><span>是巩固和发展平等团结互助和谐社会主义民族关系的必然要求</span></li><li><span>是党的民族工作开创新局面的必然要求</span></li></ul></li><li><p><span>筑牢中华民族共同体意识作为党的民族工作的主线</span></p></li><li><p><span>中华民族共同体意识是国家统一之基、民族团结之本、精神力量之魂</span><span>		</span></p></li></ul></li><li><p><span>党的宗教工作的基本方针</span></p><ul><li><span>全面贯彻党的宗教信仰自由的政策</span></li><li><span>依法管理宗教事务</span></li><li><span>坚持独立自主的原则</span></li><li><span>积极引导宗教与社会主义社会相适应</span></li></ul></li><li><p><span>牢牢把握大团结大联合的主题，做好统战工作，坚持一致性和多样性统一，努力寻求最大公约数、画出最大同心圆</span></p><ul><li><span>人心向背、力量对比是决定党和人民事业成败的关键，是最大的政治</span></li><li><span>统战工作的本质要求是大团结大联合，解决的是人心和力量问题</span></li></ul></li></ul></li></ul><h2><a name="坚持一国两制推进祖国统一" class="md-header-anchor"></a><span>坚持一国两制，推进祖国统一</span></h2><h4><a name="一国两制方针" class="md-header-anchor"></a><span>一国两制方针</span></h4><ul><li><p><span>把握一国和两制的关系</span></p><ul><li><span>一国两制的提出首先是为了实现和维护国家的统一</span></li><li><span>国家主体坚持实行社会主义制度，是香港、澳门实行资本主义制度、保持繁荣稳定的前提和保障</span></li><li><span>坚持一国原则和尊重两制差异、维护中央权力和保障特别行政区高度自治权、发挥祖国内地坚强后盾作用和提高港澳自身竞争力有机结合</span></li></ul></li><li><p><span>必须始终依照宪法和基本法办事</span></p><ul><li><span>中华人民共和国宪法和特别行政区基本法共同构成特别行政区的宪制基础</span></li></ul></li><li><p><span>必须始终聚焦发展这个第一要务</span></p></li><li><p><span>必须始终维护和谐稳定的社会环境</span></p></li><li><p><span>三个坚定不移</span></p><ul><li><span>中国政府维护国家主权、安全、发展利益的决心坚定不移</span></li><li><span>贯彻一国两制方针坚定不移</span></li><li><span>反对任何外部势力违法干预香港事务的决心坚定不移</span></li></ul></li></ul><h4><a name="和平统一" class="md-header-anchor"></a><span>和平统一</span></h4><ul><li><p><span>携手推动民族复兴，实现和平统一目标</span></p></li><li><p><span>探索两制台湾方案，丰富和平统一实践</span></p></li><li><p><span>坚持一个中国原则，维护和平统一前景</span></p><ul><li><span>一个中国原则是两岸关系的政治基础</span></li></ul></li><li><p><span>深化两岸融合发展，夯实和平统一基础</span></p></li><li><p><span>实现同胞心灵契合，增进和平统一认同</span></p></li></ul><h2><a name="推动社会主义文化繁荣兴盛" class="md-header-anchor"></a><span>推动社会主义文化繁荣兴盛</span></h2><ul><li><p><span>发展社会主义先进文化、广泛凝聚人民精神力量，是国家治理体系和治理能力现代化的深厚支撑</span></p></li><li><p><span>建设具有强大凝聚力和引领力的社会主义意识形态</span></p><ul><li><span>意识形态工作的重要性</span></li><li><span>坚持马克思主义在意识形态领域指导地位的根本制度</span></li><li><span>坚持和加强党对意识形态工作的全面领导</span></li><li><span>坚持以社会主义核心价值观引领文化建设制度</span></li><li><span>建设具有中国特色、中国风格、中国气派的哲学社会科学</span></li><li><span>做好党的新闻舆论工作</span></li></ul></li></ul><h4><a name="培育和践行社会主义核心价值观" class="md-header-anchor"></a><span>培育和践行社会主义核心价值观</span></h4><ul><li><p><span>核心价值观是一个民族赖以维系的精神纽带，是一个国家共同的思想道德基础</span></p></li><li><p><span>社会主义核心价值观是当代中国精神的集中体现，凝结着全体人民共同的价值追求</span></p></li><li><p><span>社会主义核心价值体系的基本内容：</span></p><ul><li><span>马克思主义知道思想、中国特色社会主义共同思想、以爱国主义为核心的民主精神和以改革开放为核心的时代精神、社会主义荣辱观</span></li></ul></li><li><p><span>社会主义核心价值观和社会主义核心价值体系的关系</span></p><ul><li><span>价值观是在价值体系的基础上提出来的，是价值体系的内核凝练和集中表达</span></li><li><span>两者方向一致：体现了社会主义意识形态的本质要求，社会主义制度在思想和精神层面的质的规定性</span></li><li><span>二者各有侧重：核心价值观更加突出核心要素、更加注重凝练表达、更加强化实践导向</span></li></ul></li><li><p><span>培育和践行社会主义核心价值观，要把社会主义核心价值观融入社会生活各个方面</span></p></li></ul><h4><a name="坚定文化自信建设社会主义文化强国" class="md-header-anchor"></a><span>坚定文化自信，建设社会主义文化强国</span></h4><ul><li><p><span>坚定文化自信的重要性</span></p><ul><li><p><span>事关国运兴衰、文化安全、民族精神独立性的大问题</span></p></li><li><p><span>坚定四个自信说到底是要坚定文化自信</span></p></li><li><p><span>推动中华优秀传统文化创造性转化、创新性发展</span></p></li><li><p><span>健全人民文化权益保障制度</span></p></li><li><p><span>大力发展文化事业和文化产业</span></p><ul><li><p><span>发展文化事业，要坚持政府主导，按照公益性、基本性、均等性、便利性的要求</span></p></li><li><p><span>健全现代文化产业体系，坚持把社会效益放在首位、社会效益和经济效益相统一</span></p><ul><li><span>以讲好中国故事为着力点</span></li></ul></li></ul></li><li><p><span>提高国家文化软实力</span></p><ul><li><span>切实把我们自身的文化建设好</span></li><li><span>深化文化体制改革</span></li><li><span>推动公共文化服务标准化、均等化</span></li><li><span>大力推进文化领域供给侧结构改革，推动文化产业高质量发展</span></li><li><span>讲好中国故事是树立当代中国良好形象、提升国家文化软实力的重要战略任务</span></li></ul></li></ul></li></ul><h2><a name="坚持在发展中保障和改善民生" class="md-header-anchor"></a><span>坚持在发展中保障和改善民生</span></h2><h4><a name="提高和改善民生水平" class="md-header-anchor"></a><span>提高和改善民生水平</span></h4><ul><li><p><span>保障和改善民生是推动发展的根本目的</span></p><ul><li><p><span>优先发展教育事业</span></p></li><li><p><span>提高就业质量和人民收入水平</span></p><ul><li><span>就业是人民生存的经济基础和基本保障，是最大的民生。要坚持就业优先战略和积极就业政策，实现更高质量和更充分就业</span></li><li><span>收入分配是民生之源，是改善民生、实现发展成果由人民共享最重要最直接的方式</span></li></ul></li><li><p><span>健全多层次社会保障体系</span></p><ul><li><span>社保是民生之依</span></li><li><span>要加快覆盖全民、统筹城乡、公平统一、可持续的多层次社会保障体系</span></li></ul></li><li><p><span>全面促进健康中国建设</span></p><ul><li><span>人民健康长寿是民族昌盛和国家富强的重要标志，是社会主义现代化的重要标志，是每一个人成长和实现幸福生活的重要基础</span></li></ul></li></ul></li></ul><h4><a name="加强和创新社会治理" class="md-header-anchor"></a><span>加强和创新社会治理</span></h4><ul><li><p><span>社会治理现代化是国家治理体系和治理能力现代化的题中应有之义</span></p></li><li><p><span>加强和创新社会治理的具体措施</span></p><ul><li><p><span>创新社会治理体制</span></p></li><li><p><span>改进社会治理方式</span></p><ul><li><span>系统治理、依法治理、源头治理、综合施策</span></li></ul></li><li><p><span>加强预防和化解社会矛盾机制建设</span></p></li><li><p><span>加强社会心理服务体系建设</span></p></li><li><p><span>加强社区治理体系建设</span></p><ul><li><span>社会治理的重心要向基层下移到城乡社区</span></li></ul></li></ul></li></ul><h4><a name="坚持总体国家安全观" class="md-header-anchor"></a><span>坚持总体国家安全观</span></h4><ul><li><p><span>含义</span></p><ul><li><span>坚持国家利益至上，以人民安全为宗旨，以政治安全为根本，完善国家安全制度体系，加强国家安全能力建设，坚决维护国家主权、安全、发展利益</span></li></ul></li><li><p><span>要求</span></p><ul><li><span>加强国家安全体系和能力建设</span></li><li><span>确保国家经济安全</span></li><li><span>保障人民生命安全</span></li><li><span>维护社会稳定和安全</span></li><li><span>加强国家安全教育</span></li></ul></li></ul><h2><a name="建设美丽中国" class="md-header-anchor"></a><span>建设美丽中国</span></h2><h4><a name="坚持人和自然和谐共生" class="md-header-anchor"></a><span>坚持人和自然和谐共生</span></h4><ul><li><p><span>建设生态文明是中华民族永续发展的千年大计，关系人民福祉，关乎民族未来</span></p></li><li><p><span>社会主义现代化是人和自然和谐共生的现代化</span></p></li><li><p><span>生态文明的核心是坚持人和自然和谐共生</span></p></li><li><p><span>树立尊重自然、顺应自然、保护自然的生态文明理念</span></p><ul><li><span>尊重自然是人与自然相处时应秉持的首要态度</span></li><li><span>顺应自然是人与自然相处时应遵循的基本原则</span></li><li><span>保护自然是人与自然相处时应承担的重要责任</span></li></ul></li></ul><h4><a name="形成人与自然和谐发展新格局" class="md-header-anchor"></a><span>形成人与自然和谐发展新格局</span></h4><ul><li><p><span>践行绿水青山就是金山银山的发展理念</span></p><ul><li><span>生态环境保护的成败归根到底取决于经济结构和经济发展方式</span></li></ul></li><li><p><span>把节约资源放在首位</span></p><ul><li><span>坚持保护优先、自然恢复为主</span></li><li><span>在环保工作中，把预防为主、源头治理放在首位</span></li><li><span>在生态系统保护和修复中，把利用自然力修复生态系统放在首位</span></li><li><span>↑生态文明建设的方向和重点</span></li></ul></li><li><p><span>推荐形成绿色发展方式和绿色生活方式</span></p><ul><li><span>生态环境问题归根结底是发展方式和生活方式问题</span></li><li><span>加快划定并严守生态保护红线、环境质量底线、资源利用上线三条红线</span></li></ul></li></ul><h4><a name="加快生态文明体制改革" class="md-header-anchor"></a><span>加快生态文明体制改革</span></h4><ul><li><p><span>生态文明建设是关系中华民族永续发展的千年大计，是一场涉及生产方式、生活方式、思维方式和价值观念的革命性变革</span></p><ul><li><span>实行最严格的生态环境保护制度</span></li><li><span>全面建设资源高效利用制度</span></li><li><span>健全生态保护和修复制度</span></li><li><span>严明生态环境保护责任制度</span></li></ul></li></ul></div>
+</body>
+</html>
