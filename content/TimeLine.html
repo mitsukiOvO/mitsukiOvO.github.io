@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeLine</title>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <style>
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-image: url('./camouflage.png');
+    }
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    hr{
+      border-color: #3f3f3f;
+      border-style: double;
+      margin: 2px;
+    }
+
+    header{
+      color: ivory;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+
+    .time-line-container{      
+      margin: 0 auto;
+      max-height: fit-content;
+      max-width: 80%;
+      position: relative;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      color: whitesmoke;
+
+      --time-line-width: 4px;
+      --dist-between-line-card: calc(var(--time-line-width) + 10px)
+    }
+    .time-line-card::before{
+      content: ' ';
+      width: var(--time-line-width);
+      height: 100%;
+      background-color: ivory;
+      position: absolute;
+
+      z-index: -1;
+    }
+    .time-line-card{
+      position: relative;
+      padding-bottom: 20px;
+    }
+    .time-line-content::before{
+      position: absolute;
+      left: calc(var(--dist-between-line-card) * -1 + 10px);
+      top: 1.5rem;
+      padding: 3px;
+      content: ' ';
+      background-color: aqua;
+      border: 3px solid ivory;
+      border-radius: 50%;
+    }
+    .time-line-content{
+      margin-left: var(--dist-between-line-card);
+      padding: 1rem;
+
+      border: thin solid silver;
+      transition: all .3s ease-in;
+
+      box-shadow: 8px 7px 20px -3px rgba(20,199,157,0.55);
+      -webkit-box-shadow: 8px 7px 20px -3px rgba(20,199,157,0.55);
+      -moz-box-shadow: 8px 7px 20px -3px rgba(20,199,157,0.55);
+    }
+    .time-line-content:hover {
+      border: thin solid greenyellow;
+    }
+
+    .time-line-content-header > p{
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .time-line-content-time{
+      color: lightcyan;
+    }
+    .time-line-content-event{
+      color: cornflowerblue;
+    }
+    .time-line-content-list{
+      margin-left: 20px;
+      margin-top: 5px;
+      color: khaki;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    TimeLine
+  </header>
+
+  <div class="time-line-container" id="app">
+    <div class="time-line-card" v-for="item, index in list" :key="index">
+      <div class="time-line-content">
+        <div class="time-line-content-header">
+          <p class="time-line-content-time">{{item.time}}</p>
+          <p class="time-line-content-event">{{item.event}}</p>
+        </div>
+        <hr v-if="item.description">
+        <ol v-if="item.description" class="time-line-content-list">
+          <li v-for="desc, idesc in item.description" :key="idesc">
+            {{desc}}
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const app = {
+      data() {
+        return {
+          list: [],
+        }
+      },
+      mounted() {
+        axios.get('./event.json').then(
+          response => {            
+            let data = response.data.data
+            data = data.map(p => {
+              let trimmed = p.description?.trim()
+              p.description = trimmed?.split('\n')
+              return p
+            })
+            this.list = data
+          }
+        )
+      }
+    }
+    Vue.createApp(app).mount('#app')
+  </script>
+</body>
+</html>
