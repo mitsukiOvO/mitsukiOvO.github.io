@@ -15,7 +15,7 @@
     }
 
     body{
-      background-image: url('./camouflage.png');
+      background-image: url('/assets/camouflage.png');
     }
 
     .container{
@@ -114,8 +114,9 @@
         }
       },
       mounted() {
-        axios.get('./info.json').then(
-          response => {            
+        let url = window.location.search?.split('=')[1] || '/content/os/info.json'
+        axios.get(url).then(          
+          response => {
             temp = response.data.data.map(item => {
               return {
                 'title': item.title,
