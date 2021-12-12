@@ -29,6 +29,7 @@
 
     .wrapper {
       margin-top: 5%;
+      margin-bottom: 7rem;
       width: 90%;
 
       display: flex;
@@ -113,7 +114,8 @@
       <p v-if="current" class="counter">{{showingIndex + 1}} / {{current.sum}}</p>
       <button @click="showNextPiece" class="button">
         <span v-show="current && showingIndex + 1 != current.sum">下条答案</span>
-        <span v-show="current && showingIndex + 1 == current.sum">下个问题</span>
+        <span v-show="current && showingIndex + 1 == current.sum && itemIndex + 1 != list.length">下个问题</span>
+        <span v-show="current && showingIndex + 1 == current.sum && itemIndex + 1 == list.length">没了</span>
       </button>
       <p class="counter">{{itemIndex + 1}} / {{list.length}}</p>
     </footer>
@@ -167,6 +169,7 @@
             }
             this.list = l
             this.current = l[0]
+            this.itemIndex = 0
           }
         )
       }
