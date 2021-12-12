@@ -96,6 +96,26 @@
 
       box-shadow: 8px 7px 20px -3px rgba(20,199,157,0.55);
     }
+    .button:disabled {
+      border-style: dashed;
+      border-width: 2px;
+      border-color: ivory;
+    }
+    .act-button {
+      height: 1.5rem;
+      width: 3rem;
+
+      background-color: #3f3f3f;
+
+      opacity: .6;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .act-button:disabled {
+      opacity: 0;
+    }
   </style>
 </head>
 <body>
@@ -115,13 +135,15 @@
       </div>
     </div>
     <footer>
+      <button class="act-button" @click="prevQuestion" :disabled="itemIndex == 0">prev</button>
       <p v-if="current" class="counter">{{showingIndex + 1}} / {{current.sum}}</p>
-      <button @click="showNextPiece" class="button">
+      <button @click="showNextPiece" class="button" :disabled="current && showingIndex + 1 == current.sum && itemIndex + 1 == list.length">
         <span v-show="current && showingIndex + 1 != current.sum">下条答案</span>
         <span v-show="current && showingIndex + 1 == current.sum && itemIndex + 1 != list.length">下个问题</span>
         <span v-show="current && showingIndex + 1 == current.sum && itemIndex + 1 == list.length">没了</span>
       </button>
       <p class="counter">{{itemIndex + 1}} / {{list.length}}</p>
+      <button class="act-button" @click="nextQuestion" :disabled="itemIndex + 1 == list.length">next</button>
     </footer>
   </main>
 
@@ -139,6 +161,13 @@
         nextQuestion() {
           if (this.itemIndex + 1 < this.list.length) {
             this.itemIndex++
+            this.current = this.list[this.itemIndex]
+            this.showingIndex = -1
+          }
+        },
+        prevQuestion() {
+          if (this.itemIndex > 0) {
+            this.itemIndex--
             this.current = this.list[this.itemIndex]
             this.showingIndex = -1
           }
