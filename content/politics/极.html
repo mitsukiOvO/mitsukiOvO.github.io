@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>极</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <style>
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      color: ivory;
+    }
+
+    body {
+      height: 100%;
+      background: url('/assets/camouflage.png');
+    }
+
+    #app {
+      display: flex;
+      justify-content: center;
+    }
+
+    .wrapper {
+      margin-top: 5%;
+      width: 90%;
+
+      display: flex;
+      flex-direction: column;
+
+      border: lightcyan 1px solid;
+    }
+
+    .question {
+      font-size: 1.25rem;
+      color: khaki;
+    }
+
+    @keyframes slidein {
+      from {
+        opacity: 0;
+      }
+    
+      to {
+        opacity: 1;
+      }
+    }
+    .visibale {
+      opacity: 1;
+      
+      transition: opacity ease-in .3s;
+    }
+    .invisiable {
+      opacity: 0;
+    }
+
+    .bold {
+      font-weight: bold;
+      color: lightcoral;
+    }
+    .bold::before {
+      content: '*';
+    }
+    .bold::after {
+      content: '*';
+    }
+
+    footer {
+      height: 7rem;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+
+      display: flex;
+      align-items: center;
+    }
+    .counter {
+      margin: 0 10px 0 10px;
+    }
+    .button {
+      height: 5rem;
+      width: 5rem;
+      background: #3f3f3f;
+
+      box-shadow: 8px 7px 20px -3px rgba(20,199,157,0.55);
+    }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <div v-if="current" class="wrapper">
+      <p class="question">{{current.question}}</p>
+      <hr>
+      <div>
+        <p v-for="paragraph, index in current.answer" :key="index">
+          <span 
+            v-for="words, i in paragraph" :key="i" 
+            class="sentence"
+            :class="{ bold: words.bold, visibale: showingIndex >= words.index, invisiable: showingIndex &lt; words.index}">
+            {{words.sentence}}          
+          </span>
+        </p>
+      </div>
+    </div>
+    <footer>
+      <p v-if="current" class="counter">{{showingIndex + 1}} / {{current.sum}}</p>
+      <button @click="showNextPiece" class="button">
+        <span v-show="current && showingIndex + 1 != current.sum">下条答案</span>
+        <span v-show="current && showingIndex + 1 == current.sum">下个问题</span>
+      </button>
+      <p class="counter">{{itemIndex + 1}} / {{list.length}}</p>
+    </footer>
+  </main>
+
+  <script>
+    const app = {
+      data: () => {
+        return {
+          list: [],
+          current: null,
+          itemIndex: -1,
+          showingIndex: -1,
+        }
+      },
+      methods: {
+        nextQuestion() {
+          if (this.itemIndex + 1 < this.list.length) {
+            this.itemIndex++
+            this.current = this.list[this.itemIndex]
+            this.showingIndex = -1
+          }
+        },
+        showNextPiece() {
+          if (this.showingIndex + 1 == this.current.sum) {
+            this.nextQuestion()
+          }
+          else {
+            this.showingIndex = Math.min(this.showingIndex + 1, this.current.sum)
+          }
+        },
+        makeIndex(item) {
+          let index = 0
+          for (let i = 0; i < item.answer.length; i++) {
+            const paragraph = item.answer[i];
+            for (let j = 0; j < paragraph.length; j++) {
+              paragraph[j] = {...paragraph[j], index: index++}
+            }
+          }
+          return index
+        }
+      },
+      mounted() {
+        let url = window.location.search?.split('=')[1] || '/content/politics/assets/xiao1.json'
+        axios.get(url).then(
+          response => {
+            let l = response.data
+            for (let i = 0; i < l.length; i++) {
+              let sum = this.makeIndex(l[i])
+              l[i] = {...l[i], sum: sum}
+            }
+            this.list = l
+            this.current = l[0]
+          }
+        )
+      }
+    }
+    Vue.createApp(app).mount("#app")
+  </script>
+</body>
+</html>
