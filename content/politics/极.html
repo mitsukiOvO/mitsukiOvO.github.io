@@ -147,7 +147,10 @@
     </footer>
   </main>
 
+  <audio id="audio" src="/assets/click.mp3" preload="auto"></audio>
+
   <script>
+    const audio = document.getElementById('audio')
     const app = {
       data: () => {
         return {
@@ -173,6 +176,7 @@
           }
         },
         showNextPiece() {
+          audio?.play()
           if (this.showingIndex + 1 == this.current.sum) {
             this.nextQuestion()
           }
