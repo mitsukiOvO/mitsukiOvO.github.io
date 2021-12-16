@@ -137,7 +137,7 @@
     <footer>
       <button class="act-button" @click="prevQuestion" :disabled="itemIndex == 0">prev</button>
       <p v-if="current" class="counter">{{showingIndex + 1}} / {{current.sum}}</p>
-      <button @click="showNextPiece" class="button" onmousedown="giveASound()"
+      <button @click="showNextPiece" class="button" onmousedown="giveASound(this)"
         :disabled="current && showingIndex + 1 == current.sum && itemIndex + 1 == list.length">
         <span v-show="current && showingIndex + 1 != current.sum">下条答案</span>
         <span v-show="current && showingIndex + 1 == current.sum && itemIndex + 1 != list.length">下个问题</span>
@@ -152,7 +152,7 @@
 
   <script>
     const audio = document.getElementById('audio')
-    const giveASound = () => audio?.play()
+    const giveASound = (that) => !that.disabled && audio?.play()
 
     const app = {
       data: () => {
